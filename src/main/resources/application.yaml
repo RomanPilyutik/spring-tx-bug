@@ -1,0 +1,35 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  r2dbc:
+    url: r2dbcs:mysql://localhost:3309/test_db?serverTimezone=UTC&useUnicode=yes&characterEncoding=UTF-8
+    username: test_user
+    password: password
+  another.r2dbc:
+    url: r2dbcs:mysql://localhost:3309/another_test_db?serverTimezone=UTC&useUnicode=yes&characterEncoding=UTF-8
+    username: test_user
+    password: password
+  liquibase:
+    enabled: true
+    change-log: "classpath:/db/changelog-master.xml"
+    url: jdbc:mysql://localhost:3309/test_db?serverTimezone=UTC&useUnicode=yes&characterEncoding=UTF-8
+    user: test_user
+    password: password
+  another.liquibase:
+    change-log: "classpath:/db/another-changelog-master.xml"
+    url: jdbc:mysql://localhost:3309/another_test_db?serverTimezone=UTC&useUnicode=yes&characterEncoding=UTF-8
+    user: test_user
+    password: password
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+  reactor:
+    debug-agent:
+      enabled: ${REACTOR_DEBUG_ENABLED:true}
+
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          r2dbc: DEBUG

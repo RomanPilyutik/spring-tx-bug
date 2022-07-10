@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  test_db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_HOST: '%'
+    volumes:
+      - "./mysql:/docker-entrypoint-initdb.d"
+    ports:
+      - "3309:3306"
+    deploy:
+      resources:
+        limits:
+          memory: 1g
