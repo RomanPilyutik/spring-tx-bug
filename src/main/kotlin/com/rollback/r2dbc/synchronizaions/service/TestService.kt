@@ -1,6 +1,7 @@
 package com.rollback.r2dbc.synchronizaions.service
 
 import com.rollback.r2dbc.synchronizaions.dbconfig.TransactionOperator
+import com.rollback.r2dbc.synchronizaions.repo.Test2Entity
 import com.rollback.r2dbc.synchronizaions.repo.Test2Repository
 import com.rollback.r2dbc.synchronizaions.repo.TestEntity
 import com.rollback.r2dbc.synchronizaions.repo.TestRepository
@@ -18,12 +19,25 @@ class TestService(
     private val anotherTestService: AnotherTestService
 ) {
 
-    fun findEntities(id: UUID): Mono<TestEntity> {
+    fun findEntitiesWithTwoTransactionManagers(id: UUID): Mono<TestEntity> {
         return test2Repository.findByIdForUpdate(id)
             .flatMap {
                 Mono.zip(
                     testRepository.findById(UUID.randomUUID()),
                     anotherTestService.doSomething()
+                )
+            }
+            .`as`(transactionOperator::inTransaction)
+            .map { it.t1 }
+    }
+
+    fun findEntitiesWithOneTransactionManager(id: UUID): Mono<TestEntity> {
+        return test2Repository.findByIdForUpdate(id)
+            .flatMap {
+                Mono.zip(
+                    testRepository.findById(UUID.randomUUID()),
+                    test2Repository.insert(Test2Entity(UUID.randomUUID(), "TEST", LocalDateTime.now()))
+                        .`as`(transactionOperator::inNewTransaction)
                 )
             }
             .`as`(transactionOperator::inTransaction)

@@ -18,7 +18,6 @@ class AnotherTestService(
 
     fun doSomething(): Mono<AnotherTestEntity> {
         return AnotherTestEntity(UUID.randomUUID(), "ANOTHER PAYLOAD", LocalDateTime.now()).toMono()
-            //.delayElement(Duration.ofMillis(100))
             .flatMap { anotherTestRepository.insert(it) }
             .`as`(anotherTransactionOperator::inTransaction)
     }

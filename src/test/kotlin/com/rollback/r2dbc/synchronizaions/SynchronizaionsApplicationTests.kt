@@ -20,17 +20,30 @@ class SynchronizaionsApplicationTests {
 	lateinit var testService: TestService
 
 	@Test
-	fun test() {
+	fun testWithTwoTransactionManagers() {
 		val id = UUID.randomUUID()
 		test2Repository.insert(Test2Entity(id, "PAYLOAD", LocalDateTime.now()))
 			.test()
 			.assertNext {  }
 			.verifyComplete()
 
-		testService.findEntities(id)
+		testService.findEntitiesWithTwoTransactionManagers(id)
 			.test()
 			.expectError(EntityNotFoundException::class.java)
 			.verify()
 	}
 
+	@Test
+	fun testWithOneTransactionManagers() {
+		val id = UUID.randomUUID()
+		test2Repository.insert(Test2Entity(id, "PAYLOAD", LocalDateTime.now()))
+			.test()
+			.assertNext {  }
+			.verifyComplete()
+
+		testService.findEntitiesWithOneTransactionManager(id)
+			.test()
+			.expectError(EntityNotFoundException::class.java)
+			.verify()
+	}
 }
