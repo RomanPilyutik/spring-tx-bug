@@ -26,6 +26,6 @@ class TestRepository(
 
     fun insert(testEntity: TestEntity): Mono<TestEntity> {
         return Mono.just(testEntity)
-            .flatMap { databaseService.create(it.id, it, TestEntity::class.java) }
+            .flatMap { databaseService.create(it, TestEntity::class.java) }
     }
 }

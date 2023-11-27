@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono
 import java.util.UUID
 
 @Component
-class Test2Repository(
+class TestRepository2(
     private val databaseService: R2dbcDatabaseService,
 ) {
 
@@ -27,6 +27,6 @@ class Test2Repository(
 
     fun insert(testEntity: Test2Entity): Mono<Test2Entity> {
         return Mono.just(testEntity)
-            .flatMap { databaseService.create(it.id, it, Test2Entity::class.java) }
+            .flatMap { databaseService.create(it, Test2Entity::class.java) }
     }
 }

@@ -8,7 +8,7 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 class R2dbcTransactionOperator(
-    private val transactionManager: ReactiveTransactionManager
+    transactionManager: ReactiveTransactionManager
 ): TransactionOperator {
     private val defaultOperator: TransactionalOperator = TransactionalOperator.create(transactionManager)
     private val requiresNewTransaction: TransactionalOperator = TransactionalOperator.create(

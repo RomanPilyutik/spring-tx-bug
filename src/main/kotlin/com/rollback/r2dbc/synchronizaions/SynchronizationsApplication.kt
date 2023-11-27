@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class SynchronizaionsApplication
+class SynchronizationsApplication
 
 fun main(args: Array<String>) {
-	runApplication<SynchronizaionsApplication>(*args)
+	runApplication<SynchronizationsApplication>(*args)
 }
